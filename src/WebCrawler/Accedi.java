@@ -7,18 +7,19 @@ public class Accedi {
 	
 	public void join(String username) throws IOException {
 		String password;
+		String[] account; 
 		BufferedReader reader;
 		try {
             File file = new File("auth.txt");
             Scanner myReader = new Scanner(file);
             while (myReader.hasNextLine()) {
                 String prelevaFile = myReader.nextLine();
-                if(prelevaFile.equals(username)) {
-                	prelevaFile = myReader.nextLine();
+                account = prelevaFile.split(":");
+                if(account[0].equals(username)) {
                 	System.out.println("Inserisci la tua password: ");
                 	reader = new BufferedReader(new InputStreamReader(System.in));
             		password = reader.readLine();
-            		while(!password.equals(prelevaFile)) {
+            		while(!password.equals(account[1])) {
             			System.out.println("Password errata, riprova: ");
             			reader = new BufferedReader(new InputStreamReader(System.in));
                 		password = reader.readLine();
