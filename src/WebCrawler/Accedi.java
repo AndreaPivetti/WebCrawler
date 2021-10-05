@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Accedi {
 
-	public void join(String username) throws IOException {
+	public void verificaPassword(String username) throws IOException {
 
 		String password;
 		String[] account;
