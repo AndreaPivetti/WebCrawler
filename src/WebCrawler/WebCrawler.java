@@ -8,7 +8,6 @@ public class WebCrawler {
 
 		String username;
 		int scelta;
-		int registrazione = 0;
 		Accedi accessoUtente = new Accedi();
 		
 		System.out.println("Cosa vuoi fare? \n" 
@@ -16,7 +15,6 @@ public class WebCrawler {
 							+ "2. Registrati; \n"
 							+ "3. Esci; ");
 
-		//accessoUtente.hashPassword();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		scelta = Integer.valueOf(reader.readLine());
 
@@ -25,14 +23,13 @@ public class WebCrawler {
         	System.out.println("Inserisci il tuo username: ");
     		reader = new BufferedReader(new InputStreamReader(System.in));
     		username = reader.readLine();
-    		accessoUtente.verificaPassword(username, registrazione);
+    		accessoUtente.verificaPassword(username);
             break;
         case 2:
-        	registrazione = 1;
         	System.out.println("Qual è il tuo nome? ");
         	reader = new BufferedReader(new InputStreamReader(System.in));
     		username = reader.readLine();
-    		accessoUtente.verificaPassword(username, registrazione);
+    		accessoUtente.registraNuovoUtente(username);
             break;
         case 3:
         	System.out.println("Arrivederci!");
