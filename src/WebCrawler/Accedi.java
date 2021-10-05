@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Accedi {
 
-	public void verificaPassword(String username) throws IOException {
+	public void verificaPassword(String username) throws IOException, NoSuchAlgorithmException {
 
 		String password;
 		String[] account;
@@ -17,26 +17,35 @@ public class Accedi {
 			Scanner myReader = new Scanner(file);
 			while (myReader.hasNextLine()) {
 				String prelevaFile = myReader.nextLine();
-				account = prelevaFile.split(":");
-				if (account[0].equals(username)) {
-					System.out.println("Inserisci la tua password: ");
-					reader = new BufferedReader(new InputStreamReader(System.in));
-					password = reader.readLine();
-					while (!password.equals(account[1])) {
-						System.out.println("Password errata, riprova: ");
+				if (prelevaFile.contains(":")) {
+					account = prelevaFile.split(":");
+					MessageDigest md = MessageDigest.getInstance("MD5");
+					md.update(account[1].getBytes());
+					String hashedPass = md.digest().toString().toUpperCase();
+					if (account[0].equals(username)) {
+						System.out.println("Inserisci la tua password: ");
 						reader = new BufferedReader(new InputStreamReader(System.in));
 						password = reader.readLine();
+						md = MessageDigest.getInstance("MD5");
+						md.update(password.getBytes());
+						hashedPass = md.digest().toString().toUpperCase();
+						while (!account[1].equals(hashedPass)) {
+							System.out.println("Password errata, riprova: ");
+							reader = new BufferedReader(new InputStreamReader(System.in));
+							password = reader.readLine();
+						}
+						System.out.println("Accesso effettuato ");
 					}
-					System.out.println("Accesso effettuato ");
 				}
 			}
 		} catch (FileNotFoundException exc) {
-			System.out.println("Si è verificato un errore \n");
+			System.out.println("Si Ã¨ verificato un errore \n");
 			exc.printStackTrace();
 		}
 
 	}
 
+	/*
 	public void hashPassword() throws NoSuchAlgorithmException {
 
 		String[] account;
@@ -50,17 +59,23 @@ public class Accedi {
 					account = prelevaFile.split(":");
 					MessageDigest md = MessageDigest.getInstance("MD5");
 					md.update(account[1].getBytes());
-					String hashedPass = new String(md.digest()).toUpperCase();
+					String hashedPass = md.digest().toString().toUpperCase();
 					System.out.println(account[1]);
 					System.out.println(hashedPass);
+					
+					 * try { FileWriter myWriter = new FileWriter("auth.txt", true);
+					 * myWriter.write(account[0] + ":" + hashedPass); myWriter.close();
+					 * System.out.println("Scrittura effettuata"); } catch (IOException err) {
+					 * System.out.println("Si Ã¨ verificato un errore \n"); err.printStackTrace(); }
+					 
 				}
 
 			}
 		} catch (FileNotFoundException exc) {
-			System.out.println("Si è verificato un errore \n");
+			System.out.println("Si Ã¨ verificato un errore \n");
 			exc.printStackTrace();
 		}
 
 	}
-
+	*/
 }

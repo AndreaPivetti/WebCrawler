@@ -9,7 +9,7 @@ public class WebCrawler {
 		String username;
 		Accedi accessoUtente = new Accedi();
 
-		accessoUtente.hashPassword();
+		//accessoUtente.hashPassword();
 
 		System.out.println("Inserisci il tuo username: ");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
