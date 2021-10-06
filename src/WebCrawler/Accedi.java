@@ -10,12 +10,12 @@ public class Accedi {
 	String password;
 	String hashedPass;
 	String[] account;
-	BufferedReader reader;
 	Hashing hash = new Hashing();
+	LoginUtils richiedi = new LoginUtils();
 
 	public void verificaPassword() throws IOException, NoSuchAlgorithmException {
 		try {
-    		username = richiestaUsername();
+    		username = richiedi.richiestaUsername();
     		controlloPassSuFile();
 		} catch (FileNotFoundException exc) {
 			System.out.println("Si è verificato un errore \n");
@@ -31,44 +31,18 @@ public class Accedi {
 			if (prelevaFile.contains(":")) {
 				account = prelevaFile.split(":");
 				if (account[0].equals(username)) {
-					System.out.println("Inserisci la tua password: ");
-					reader = new BufferedReader(new InputStreamReader(System.in));
-					password = reader.readLine();
+					password = richiedi.richiestaPassword();
 					hashedPass = hash.hashPassword(password);
 					while (!account[1].equals(hashedPass)) {
-						System.out.println("Password errata, riprova: ");
-						reader = new BufferedReader(new InputStreamReader(System.in));
-						password = reader.readLine();
+						System.out.println("Password errata!");
+						password = richiedi.richiestaPassword();
 					}
 					System.out.println("Accesso effettuato ");
+					break;
 				}
 			}
 		}
 		myReader.close();
-	}
-	
-	public String richiestaUsername() throws IOException {
-		String nome;
-		System.out.println("Inserisci il tuo username: ");
-		reader = new BufferedReader(new InputStreamReader(System.in));
-		nome = reader.readLine();
-		return nome;
- 	}
-	
-	public void registraNuovoUtente() throws NoSuchAlgorithmException {
-		try {
-			username = richiestaUsername();
-			FileWriter myWriter = new FileWriter("auth.txt", true);
-			System.out.println("Inserisci una password: ");
-			reader = new BufferedReader(new InputStreamReader(System.in));
-			password = reader.readLine();
-			hashedPass = hash.hashPassword(password);
-			myWriter.write("\n" + username + ":" + hashedPass);
-			myWriter.close();
-		} catch (IOException err) {
-			System.out.println("Si è verificato un errore \n");
-			err.printStackTrace();
-		}
 	}
 
 }
