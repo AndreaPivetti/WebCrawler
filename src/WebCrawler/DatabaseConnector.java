@@ -4,10 +4,12 @@ import java.sql.*;
 
 public class DatabaseConnector {
 	
+	Connection con;
+	
 	public Connection connessione() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/web_crawler", "root", "RootSQL");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/web_crawler", "root", "RootSQL");
 			//Statement stmt = con.createStatement();
 			//ResultSet rs = stmt.executeQuery("select * from utenti");
 			/*
@@ -23,4 +25,9 @@ public class DatabaseConnector {
 		}
 		
 	}
+	
+	public void close() throws SQLException {
+		con.close();
+	}
+	
 }
