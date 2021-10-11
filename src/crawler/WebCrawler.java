@@ -1,6 +1,7 @@
 package crawler;
 
 import java.io.IOException;
+import java.util.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -12,8 +13,9 @@ public class WebCrawler {
 		try {
 			Document doc = Jsoup.connect(url).get();
 			Elements images = doc.select("img");
+			List<String> urlImmagini = new ArrayList<String>();
 			for (Element image : images) {
-				System.out.println("src : " + image.attr("src"));
+				urlImmagini.add(image.attr("src"));
 			}
 		} catch (Exception exc) {
 			System.out.println("Si è verificato un errore \n");

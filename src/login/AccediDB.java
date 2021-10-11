@@ -31,16 +31,13 @@ public class AccediDB implements Accedi {
 
 		Connection con = null;
 		Utente dbUser = null;
-		try {
-			DatabaseConnector dn = new DatabaseConnector();
+		try (DatabaseConnector dn = new DatabaseConnector()){
 			con = dn.connessione();
 			UtenteDao utDao = new UtenteDao(con);
 			dbUser = utDao.getByUsername(username);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			con.close();
-		}
+		} 
 		if (!dbUser.getUsername().equals(null)) {
 			String dbPassword = dbUser.getPassword();
 			password = richiedi.richiestaPassword();

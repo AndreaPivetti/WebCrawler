@@ -2,7 +2,7 @@ package config;
 
 import java.sql.*;
 
-public class DatabaseConnector {
+public class DatabaseConnector implements AutoCloseable{
 	
 	Connection con;
 	
