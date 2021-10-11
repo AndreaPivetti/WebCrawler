@@ -11,6 +11,14 @@ public class UtenteDao implements Dao<Utente> {
 	public UtenteDao(Connection connetti) {
 		this.connetti = connetti;
 	}
+	
+	public Utente trasformaResultSetInOggetto(ResultSet rs) throws SQLException {
+		Utente user = new Utente();
+		user.setId(rs.getInt("id"));
+		user.setUsername(rs.getString("username"));
+		user.setPassword(rs.getString("password"));
+		return user;
+	}
 
 	@Override
 	public Utente get(int id) throws SQLException {
@@ -21,9 +29,8 @@ public class UtenteDao implements Dao<Utente> {
 		Utente user = new Utente();
 		while (rs.next()) {
 			
-			user.setId(rs.getInt("id"));
-			user.setUsername(rs.getString("username"));
-
+			user = trasformaResultSetInOggetto(rs);
+			
 		}
 		System.out.println(user.getId() + "  " + user.getUsername());
 		return user;
@@ -37,8 +44,7 @@ public class UtenteDao implements Dao<Utente> {
 		Utente user = new Utente();
 		while (rs.next()) {
 			
-			user.setId(rs.getInt("id"));
-			user.setUsername(rs.getString("username"));
+			user = trasformaResultSetInOggetto(rs);
 
 		}
 		System.out.println(user.getId() + "  " + user.getUsername());
