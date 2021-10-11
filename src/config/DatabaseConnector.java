@@ -1,4 +1,4 @@
-package WebCrawler;
+package config;
 
 import java.sql.*;
 

@@ -1,4 +1,4 @@
-package WebCrawler;
+package utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

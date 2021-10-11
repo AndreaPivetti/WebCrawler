@@ -1,4 +1,4 @@
-package WebCrawler;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,26 +7,22 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class WebCrawler {
+import config.DatabaseConnector;
+import dao.UtenteDao;
+import login.Accedi;
+import login.AccediDB;
+import login.AccediFile;
+import utils.Controlli;
+
+public class MainClass {
 	public static void main(String[] args) throws IOException, NoSuchAlgorithmException, SQLException {
-		
-		Connection con = null;
-		try{
-			DatabaseConnector dn = new DatabaseConnector();
-			con = dn.connessione();
-			UtenteDao utDao = new UtenteDao(con);
-			utDao.get(1);
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			con.close();
-		}
-		
 		
 		int scelta;
 		boolean sceltaGiusta = false;
-		Accedi accessoUtente = new Accedi();
-		Registrati registraUtente = new Registrati();
+		String tipoAccesso = "DB";
+		Accedi accessoUtente = null;
+		if (tipoAccesso.equals("File")) accessoUtente = new AccediFile();
+		else if (tipoAccesso.equals("DB")) accessoUtente = new AccediDB();
 		Controlli controllo = new Controlli();
 
 		System.out.println("Cosa vuoi fare? \n" + "1. Accedi; \n" + "2. Registrati; \n" + "3. Esci; ");
@@ -43,7 +39,7 @@ public class WebCrawler {
 					sceltaGiusta = true;
 					break;
 				case 2:
-					registraUtente.registraNuovoUtente();
+					accessoUtente.registraNuovoUtente();
 					sceltaGiusta = true;
 					break;
 				case 3:
@@ -56,7 +52,7 @@ public class WebCrawler {
 					break;
 				}
 			} catch (Exception e) {
-				System.out.println("Nessun numero intero inserito! ");
+				System.out.println("Errore! ");
 				controllo.mostraTentativi(i);
 			}
 		}

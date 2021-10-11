@@ -1,10 +1,12 @@
-package WebCrawler;
+package login;
 
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
+import utils.Hashing;
+import utils.LoginUtils;
 
-public class Accedi {
+public class AccediFile implements Accedi{
 
 	String username;
 	String password;
@@ -16,14 +18,14 @@ public class Accedi {
 	public void verificaPassword() throws IOException, NoSuchAlgorithmException {
 		try {
     		username = richiedi.richiestaUsername();
-    		controlloPassSuFile();
+    		login();
 		} catch (FileNotFoundException exc) {
 			System.out.println("Si è verificato un errore \n");
 			exc.printStackTrace();
 		}
 	}
 
-	public void controlloPassSuFile() throws IOException, NoSuchAlgorithmException {
+	public void login() throws IOException, NoSuchAlgorithmException {
 		File file = new File("auth.txt");
 		Scanner myReader = new Scanner(file);
 		while (myReader.hasNextLine()) {
@@ -43,6 +45,20 @@ public class Accedi {
 			}
 		}
 		myReader.close();
+	}
+	
+	public void registraNuovoUtente() throws NoSuchAlgorithmException {
+		try {
+			username = richiedi.richiestaUsername();
+			FileWriter myWriter = new FileWriter("auth.txt", true);
+			password = richiedi.richiestaPassword();
+			hashedPass = hash.hashPassword(password);
+			myWriter.write("\n" + username + ":" + hashedPass);
+			myWriter.close();
+		} catch (IOException err) {
+			System.out.println("Si è verificato un errore \n");
+			err.printStackTrace();
+		}
 	}
 
 }

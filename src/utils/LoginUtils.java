@@ -1,4 +1,4 @@
-package WebCrawler;
+package utils;
 
 import java.io.*;
 
@@ -20,6 +20,14 @@ public class LoginUtils {
 		reader = new BufferedReader(new InputStreamReader(System.in));
 		pass = reader.readLine();
 		return pass;
+ 	}
+	
+	public String richiestaURL() throws IOException {
+		String url;
+		System.out.println("Inserisci un URL: ");
+		reader = new BufferedReader(new InputStreamReader(System.in));
+		url = reader.readLine();
+		return url;
  	}
 	
 }
