@@ -15,8 +15,24 @@ public class UtenteDao implements Dao<Utente> {
 	@Override
 	public Utente get(int id) throws SQLException {
 		PreparedStatement statement;
-		statement = connetti.prepareStatement("SELECT * from utenti WHERE id= ?");
+		statement = connetti.prepareStatement("SELECT * from utenti WHERE id = ?");
 		statement.setInt(1, id);
+		ResultSet rs = statement.executeQuery();
+		Utente user = new Utente();
+		while (rs.next()) {
+			
+			user.setId(rs.getInt("id"));
+			user.setUsername(rs.getString("username"));
+
+		}
+		System.out.println(user.getId() + "  " + user.getUsername());
+		return user;
+	}
+	
+	public Utente getByUsername(String username) throws SQLException {
+		PreparedStatement statement;
+		statement = connetti.prepareStatement("SELECT * from utenti WHERE username = ?");
+		statement.setString(1, username);
 		ResultSet rs = statement.executeQuery();
 		Utente user = new Utente();
 		while (rs.next()) {
