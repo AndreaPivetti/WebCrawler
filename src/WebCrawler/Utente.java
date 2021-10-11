@@ -4,10 +4,19 @@ import java.sql.Date;
 
 public class Utente {
 
+	int id;
 	String username;
 	String password;
 	Date ultimo_accesso;
 	boolean utente_attivo;
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 	
 	public void setUsername(String name) {
 		this.username = name;
