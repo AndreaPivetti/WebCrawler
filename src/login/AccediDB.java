@@ -31,7 +31,7 @@ public class AccediDB implements Accedi {
 
 		Connection con = null;
 		Utente dbUser = null;
-		try (DatabaseConnector dn = new DatabaseConnector()){
+		try (DatabaseConnector dn = new DatabaseConnector()){	//Try with resources: una volta finito il try, chiude le connessioni aperte delle risorse definite tra le parentesi
 			con = dn.connessione();
 			UtenteDao utDao = new UtenteDao(con);
 			dbUser = utDao.getByUsername(username);
