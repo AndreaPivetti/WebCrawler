@@ -17,11 +17,11 @@ public class WebCrawler {
 			Elements images = doc.select("img");
 			List<String> urlImmagini = new ArrayList<String>();
 			for (Element image : images) {
-				urlImmagini.add(image.attr("src"));
+				urlImmagini.add(image.attr("abs:src"));
 				String[] immagine;
 				immagine = image.attr("src").split("/");
 				String nomeImmagine = immagine[(immagine.length) - 1];
-				scarica.scaricaImmagine(url, nomeImmagine);
+				scarica.scaricaImmagine(image.attr("abs:src"), nomeImmagine);
 			}
 		} catch (Exception exc) {
 			System.out.println("Si è verificato un errore \n");

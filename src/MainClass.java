@@ -6,28 +6,40 @@ import java.io.InputStreamReader;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import config.DatabaseConnector;
-import dao.UtenteDao;
-import login.Accedi;
-import login.AccediDB;
-import login.AccediFile;
-import utils.Controlli;
+import crawler.*;
+import dao.*;
+import login.*;
+import utils.*;
 
 public class MainClass {
 	public static void main(String[] args) throws IOException, NoSuchAlgorithmException, SQLException {
-		
+
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		int scelta;
 		boolean sceltaGiusta = false;
-		String tipoAccesso = "DB";
+		
+		String tipoAccesso = " ";
+		System.out.println("A cosa vuoi accedere? \n" + "1. DataBase; \n" + "2. File; ");
+		scelta = Integer.valueOf(reader.readLine());
+		if(scelta == 1) {
+			tipoAccesso = "DB";
+		} else if(scelta == 2) {
+			tipoAccesso = "File";
+		} else {
+			System.out.println("Scelta non valida! ");
+		}
 		Accedi accessoUtente = null;
-		if (tipoAccesso.equals("File")) accessoUtente = new AccediFile();
-		else if (tipoAccesso.equals("DB")) accessoUtente = new AccediDB();
+		if (tipoAccesso.equals("File"))
+			accessoUtente = new AccediFile();
+		else if (tipoAccesso.equals("DB"))
+			accessoUtente = new AccediDB();
+		
 		Controlli controllo = new Controlli();
 
 		System.out.println("Cosa vuoi fare? \n" + "1. Accedi; \n" + "2. Registrati; \n" + "3. Esci; ");
 
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		
 
 		for (int i = 0; i < 3 && sceltaGiusta == false; i++) {
 			try {
@@ -36,6 +48,12 @@ public class MainClass {
 				switch (scelta) {
 				case 1:
 					accessoUtente.verificaPassword();
+					LoginUtils richiedi = new LoginUtils();
+
+					String url = richiedi.richiestaURL();
+					WebCrawler crawler = new WebCrawler();
+					crawler.crawler(url);
+
 					sceltaGiusta = true;
 					break;
 				case 2:

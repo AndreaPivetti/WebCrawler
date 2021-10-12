@@ -47,10 +47,7 @@ public class AccediDB implements Accedi {
 				password = richiedi.richiestaPassword();
 			}
 			System.out.println("Accesso effettuato ");
-			
-			String url = richiedi.richiestaURL();
-			WebCrawler crawler = new WebCrawler();
-			crawler.crawler(url);
+
 		}
 
 	}
@@ -79,3 +76,4 @@ public class AccediDB implements Accedi {
 	}
 
 }
+
