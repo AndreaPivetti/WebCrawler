@@ -10,18 +10,27 @@ import config.DatabaseConnector;
 import crawler.*;
 import dao.*;
 import login.*;
+import models.Downloads;
 import utils.*;
 
 public class MainClass {
 	public static void main(String[] args) throws IOException, NoSuchAlgorithmException, SQLException {
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		int scelta;
+		int scelta = 0;
 		boolean sceltaGiusta = false;
 		
 		String tipoAccesso = " ";
-		System.out.println("A cosa vuoi accedere? \n" + "1. DataBase; \n" + "2. File; ");
-		scelta = Integer.valueOf(reader.readLine());
+		try {
+			System.out.println("A cosa vuoi accedere? \n" + "1. DataBase; \n" + "2. File; ");
+			scelta = Integer.valueOf(reader.readLine());
+		} catch (Exception e) {
+			System.out.println("Errore! ");
+		}
+		while (scelta != 1 && scelta != 2) {
+			System.out.println("Scelta non valida! \n" + "A cosa vuoi accedere? \n" + "1. DataBase; \n" + "2. File; ");
+			scelta = Integer.valueOf(reader.readLine());
+		}
 		if(scelta == 1) {
 			tipoAccesso = "DB";
 		} else if(scelta == 2) {
@@ -39,22 +48,23 @@ public class MainClass {
 
 		System.out.println("Cosa vuoi fare? \n" + "1. Accedi; \n" + "2. Registrati; \n" + "3. Esci; ");
 
-		
-
 		for (int i = 0; i < 3 && sceltaGiusta == false; i++) {
 			try {
 				scelta = Integer.valueOf(reader.readLine());
 
 				switch (scelta) {
 				case 1:
+					sceltaGiusta = true;
+					
 					accessoUtente.verificaPassword();
 					LoginUtils richiedi = new LoginUtils();
 
 					String url = richiedi.richiestaURL();
+					Downloads downloadInfo = new Downloads();
+					downloadInfo.setPagina_web(url);
 					WebCrawler crawler = new WebCrawler();
 					crawler.crawler(url);
-
-					sceltaGiusta = true;
+					
 					break;
 				case 2:
 					accessoUtente.registraNuovoUtente();

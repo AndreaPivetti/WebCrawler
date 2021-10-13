@@ -3,6 +3,8 @@ package dao;
 import java.sql.SQLException;
 import java.util.*;
 
+import models.Downloads;
+
 public interface Dao<T> {	//Data Access Object
 	
 	T get(int id) throws SQLException;

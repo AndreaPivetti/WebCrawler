@@ -3,11 +3,16 @@ package crawler;
 import java.io.*;
 import java.net.URL;
 
-public class Download {
+public class ScaricaImmagine {
+	
+	WebCrawler web_crawler = new WebCrawler();
 
-	public void scaricaImmagine(String src, String nomeImmagine) {
+	public void scaricaImmagine(String src, String nomeImmagine, String pathFinale) {
 
-		String pathDownload = "C:\\Users\\Utente\\Desktop\\immagini_scaricate_webCrawler\\" + nomeImmagine;
+		if(nomeImmagine.contains("?")){
+			nomeImmagine = "nuova_immagine.png";
+		}
+		String pathDownload = pathFinale + System.getProperty("file.separator") + nomeImmagine;
 		try (BufferedInputStream in = new BufferedInputStream(new URL(src).openStream());
 				FileOutputStream fileOutputStream = new FileOutputStream(pathDownload);
 				BufferedOutputStream bout = new BufferedOutputStream(fileOutputStream);) {
@@ -19,6 +24,7 @@ public class Download {
 			}
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
+			web_crawler.errori = true;
 		}
 
 	}

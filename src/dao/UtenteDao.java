@@ -3,6 +3,7 @@ package dao;
 import java.sql.*;
 import java.util.List;
 
+import models.Downloads;
 import models.Utente;
 
 public class UtenteDao implements Dao<Utente> {
@@ -34,7 +35,7 @@ public class UtenteDao implements Dao<Utente> {
 			user = trasformaResultSetInOggetto(rs);
 			
 		}
-		System.out.println(user.getId() + "  " + user.getUsername());
+		//System.out.println(user.getId() + "  " + user.getUsername());
 		return user;
 	}
 	
@@ -49,7 +50,7 @@ public class UtenteDao implements Dao<Utente> {
 			user = trasformaResultSetInOggetto(rs);
 
 		}
-		System.out.println(user.getId() + "  " + user.getUsername());
+		//System.out.println(user.getId() + "  " + user.getUsername());
 		return user;
 	}
 
