@@ -25,8 +25,6 @@ public class SalvaImmagini {
 	public String creaDirectoryDownloadSingolo(String path) {
 		String pathFinale;
 		EstraiDataOrario data = new EstraiDataOrario();
-		Downloads downloadInfo = new Downloads();
-		downloadInfo.setOra_download(data.estraiData());
 		pathFinale = path + System.getProperty("file.separator") + data.estraiData();
 		File folder = new File(pathFinale);
 		if(!folder.isDirectory()){	//Verifica che la cartella non esista già

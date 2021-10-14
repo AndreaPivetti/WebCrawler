@@ -12,6 +12,7 @@ import org.jsoup.select.Elements;
 import config.DatabaseConnector;
 import dao.DownloadsDao;
 import models.Downloads;
+import utils.EstraiDataOrario;
 
 public class WebCrawler {
 
@@ -23,13 +24,17 @@ public class WebCrawler {
 		DatabaseConnector dn = new DatabaseConnector();
 		con = dn.connessione();
 		Downloads downloadInfo = new Downloads();
+		downloadInfo.setPagina_web(url);
 		DownloadsDao downloadDao = new DownloadsDao(con);
 		ScaricaImmagine scarica = new ScaricaImmagine();
+		EstraiDataOrario data = new EstraiDataOrario();
 		String path;
 		String pathFinale;
 		SalvaImmagini destinazioneImmagine = new SalvaImmagini();
 		path = destinazioneImmagine.creaDirectory();
 		pathFinale = destinazioneImmagine.creaDirectoryDownloadSingolo(path);
+		
+		downloadInfo.setOra_download(data.estraiData());
 		
 		try {
 			Document doc = Jsoup.connect(url).get();	//prende l'URL 
@@ -49,6 +54,7 @@ public class WebCrawler {
 			downloadInfo.setDurata_download(duration);
 			
 			downloadInfo.setNumero_immagini(urlImmagini.size());
+			
 		} catch (Exception exc) {
 			System.out.println("Si è verificato un errore \n");
 			errori = true;
@@ -58,8 +64,11 @@ public class WebCrawler {
 		} else if (errori == true) {
 			downloadInfo.setEsito_download("KO");
 		}
-		downloadDao.save(downloadInfo);
-	
+		try {
+			downloadDao.save(downloadInfo);
+		} catch(Exception exc) {
+			System.out.println("Errore caricamento su database!");
+		}
 	}
 
 }

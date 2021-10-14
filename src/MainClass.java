@@ -48,7 +48,7 @@ public class MainClass {
 
 		System.out.println("Cosa vuoi fare? \n" + "1. Accedi; \n" + "2. Registrati; \n" + "3. Esci; ");
 
-		for (int i = 0; i < 3 && sceltaGiusta == false; i++) {
+		for (int i = 0; i < 3 && !sceltaGiusta; i++) {	// !sceltaGiusta corrisponde a sceltaGiusta == false
 			try {
 				scelta = Integer.valueOf(reader.readLine());
 
@@ -60,8 +60,6 @@ public class MainClass {
 					LoginUtils richiedi = new LoginUtils();
 
 					String url = richiedi.richiestaURL();
-					Downloads downloadInfo = new Downloads();
-					downloadInfo.setPagina_web(url);
 					WebCrawler crawler = new WebCrawler();
 					crawler.crawler(url);
 					
