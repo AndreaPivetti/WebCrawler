@@ -52,7 +52,7 @@ public class WebCrawler {
 			long duration = finish - startTime;
 			duration = ( finish - startTime)/1000;	//trasformazione del tempo di download da millisecondi a secondi
 			downloadInfo.setDurata_download(duration);
-			
+
 			downloadInfo.setNumero_immagini(urlImmagini.size());
 			
 		} catch (Exception exc) {
@@ -67,7 +67,8 @@ public class WebCrawler {
 		try {
 			downloadDao.save(downloadInfo);
 		} catch(Exception exc) {
-			System.out.println("Errore caricamento su database!");
+			System.out.println(exc.getMessage());
+			exc.printStackTrace();
 		}
 	}
 

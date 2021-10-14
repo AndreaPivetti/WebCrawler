@@ -1,8 +1,5 @@
 package models;
 
-import java.sql.Date;
-import java.sql.Time;
-
 public class Downloads {
 
 	int id;
@@ -11,7 +8,8 @@ public class Downloads {
 	String ora_download;
 	Long durata_download;
 	String esito_download;
-	
+	int utente_id;
+
 	public String getPagina_web() {
 		return pagina_web;
 	}
@@ -49,6 +47,14 @@ public class Downloads {
 	
 	public void setEsito_download(String esito_download) {
 		this.esito_download = esito_download;
+	}
+	
+	public int getUtente_id() {
+		return utente_id;
+	}
+
+	public void setUtente_id(int utente_id) {
+		this.utente_id = utente_id;
 	}
 	
 }

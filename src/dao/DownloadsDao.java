@@ -31,7 +31,7 @@ public class DownloadsDao implements Dao<Downloads> {
 
 
 	public void save(Downloads t) throws SQLException {
-		String insert = "INSERT INTO `web_crawler`.`download` (`pagina_web`, `numero_immagini`, `ora_download`, `durata_download`, `esito_download`) VALUES (?, ?, ?, ?, ?)";
+		String insert = "INSERT INTO `web_crawler`.`download` (`pagina_web`, `numero_immagini`, `ora_download`, `durata_download`, `esito_download`, `utente_id`) VALUES (?, ?, ?, ?, ?, ?)";
 		PreparedStatement statement;
 		statement = connetti.prepareStatement(insert);
 		statement.setString(1, t.getPagina_web());
@@ -39,6 +39,7 @@ public class DownloadsDao implements Dao<Downloads> {
 		statement.setString(3, t.getOra_download());
 		statement.setLong(4, t.getDurata_download());
 		statement.setString(5, t.getEsito_download());
+		statement.setInt(6, 1);
 		statement.executeUpdate();
 	}
 
