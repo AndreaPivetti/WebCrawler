@@ -47,9 +47,9 @@ public class AccediDB implements Accedi {
 				password = richiedi.richiestaPassword();
 			}
 			System.out.println("Accesso effettuato ");
-
+			Sessione.setUtenteId(dbUser.getId());
 		}
-
+		
 	}
 
 	public void registraNuovoUtente() throws NoSuchAlgorithmException, SQLException {

@@ -39,7 +39,7 @@ public class DownloadsDao implements Dao<Downloads> {
 		statement.setString(3, t.getOra_download());
 		statement.setLong(4, t.getDurata_download());
 		statement.setString(5, t.getEsito_download());
-		statement.setInt(6, 1);
+		statement.setInt(6, Sessione.getUtente_id());
 		statement.executeUpdate();
 	}
 
