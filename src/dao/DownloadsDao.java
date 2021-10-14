@@ -7,7 +7,7 @@ import java.util.List;
 
 import models.Downloads;
 
-public class DownloadsDao implements Dao{
+public class DownloadsDao implements Dao<Downloads> {
 
 	Connection connetti;
 	
@@ -16,7 +16,7 @@ public class DownloadsDao implements Dao{
 	}
 	
 	@Override
-	public Object get(int id) throws SQLException {
+	public Downloads get(int id) throws SQLException {
 		
 		return null;
 	}
@@ -29,11 +29,7 @@ public class DownloadsDao implements Dao{
 	
 	@Override
 
-	public void save(Object t) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-	
+
 	public void save(Downloads t) throws SQLException {
 		String insert = "INSERT INTO `web_crawler`.`download` (`pagina_web`, `numero_immagini`, `ora_download`, `durata_download`, `esito_download`) VALUES (?, ?, ?, ?, ?)";
 		PreparedStatement statement;
@@ -47,13 +43,13 @@ public class DownloadsDao implements Dao{
 	}
 
 	@Override
-	public void update(Object t, String[] params) {
+	public void update(Downloads t, String[] params) {
 		
 		
 	}
 
 	@Override
-	public void delete(Object t) {
+	public void delete(Downloads t) {
 		
 		
 	}
