@@ -56,7 +56,7 @@ public class UtenteDao implements Dao<Utente> {
 		return user;
 	}
 
-	public int getTotalUserDownload(String username) throws SQLException {
+	public void getTotalUserDownload(String username) throws SQLException {
 		int conteggio_download = 0;
 		String join = "SELECT COUNT(*) AS conteggio_download FROM utenti INNER JOIN download ON utenti.id = download.utente_id WHERE utenti.username = ?;";
 		PreparedStatement statement;
@@ -66,7 +66,6 @@ public class UtenteDao implements Dao<Utente> {
 		rs.next();
 		conteggio_download = rs.getInt("conteggio_download");
 		Sessione.setDownload_effettuati(conteggio_download);
-		return conteggio_download;
 	}
 	
 	@Override

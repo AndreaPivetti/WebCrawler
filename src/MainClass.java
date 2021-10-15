@@ -19,6 +19,7 @@ public class MainClass {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		int scelta = 0;
 		boolean sceltaGiusta = false;
+		String contatta;
 		
 		String tipoAccesso = " ";
 		try {
@@ -57,12 +58,17 @@ public class MainClass {
 					sceltaGiusta = true;
 					
 					accessoUtente.verificaPassword();
-					LoginUtils richiedi = new LoginUtils();
-
-					String url = richiedi.richiestaURL();
-					WebCrawler crawler = new WebCrawler();
-					crawler.crawler(url);
-					
+					AccediDB acc_db = new AccediDB();
+					System.out.println(acc_db.puoi_scaricare);
+					if(acc_db.puoi_scaricare == true) {	
+						LoginUtils richiedi = new LoginUtils();
+						String url = richiedi.richiestaURL();
+						WebCrawler crawler = new WebCrawler();
+						crawler.crawler(url);
+					} else {
+						System.out.println("Hai esaurito il numero massimo di download! \n" + "Vuoi contattare l'amministratore? (si/no)");
+						contatta = reader.readLine().toLowerCase();
+					}
 					break;
 				case 2:
 					accessoUtente.registraNuovoUtente();

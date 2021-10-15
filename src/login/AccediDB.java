@@ -17,11 +17,19 @@ public class AccediDB implements Accedi {
 	String[] ultAcc = new String[1];
 	Hashing hash = new Hashing();
 	LoginUtils richiedi = new LoginUtils();
+	public boolean puoi_scaricare;
+	int limite_download;
 
 	public void verificaPassword() throws IOException, NoSuchAlgorithmException, SQLException {
 		try {
 			username = richiedi.richiestaUsername();
 			login();
+			if(Sessione.getDownload_effettuati() >= this.limite_download) {
+				this.puoi_scaricare = false;
+			} else {
+				this.puoi_scaricare = true;
+			}
+			System.out.println(this.puoi_scaricare);
 		} catch (Exception exc) {
 			System.out.println("Si è verificato un errore \n");
 			exc.printStackTrace();
@@ -59,7 +67,9 @@ public class AccediDB implements Accedi {
 				utDao.update(dbUser, ultAcc);
 				//System.out.println("Fino ad ora hai effettuato " + utDao.getTotalUserDownload(username) + " download su un massimo di " + dbUser.getMax_downloads());
 				try {
-					System.out.println("Fino ad ora hai effettuato " + utDao.getTotalUserDownload(username) + " download su un massimo di " + dbUser.getMax_downloads());
+					utDao.getTotalUserDownload(username);
+					this.limite_download = dbUser.getMax_downloads();
+					System.out.println("Fino ad ora hai effettuato " + Sessione.getDownload_effettuati() + " download su un massimo di " + dbUser.getMax_downloads());
 				} catch(Exception exc) {
 					System.out.println(exc.getMessage());
 					exc.printStackTrace();
@@ -70,7 +80,7 @@ public class AccediDB implements Accedi {
 		} finally {
 			con.close();
 		}
-
+		
 	}
 
 	public void registraNuovoUtente() throws NoSuchAlgorithmException, SQLException {
