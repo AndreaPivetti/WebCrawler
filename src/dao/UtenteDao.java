@@ -2,7 +2,7 @@ package dao;
 
 import java.sql.*;
 import java.util.List;
-
+import login.Sessione;
 import models.Downloads;
 import models.Utente;
 
@@ -20,6 +20,8 @@ public class UtenteDao implements Dao<Utente> {
 		user.setId(rs.getInt("id"));
 		user.setUsername(rs.getString("username"));
 		user.setPassword(rs.getString("password"));
+		user.setUltimo_accesso(rs.getString("ultimo_accesso"));
+		user.setMax_downloads(rs.getInt("max_downloads"));
 		return user;
 	}
 
@@ -54,6 +56,19 @@ public class UtenteDao implements Dao<Utente> {
 		return user;
 	}
 
+	public int getTotalUserDownload(String username) throws SQLException {
+		int conteggio_download = 0;
+		String join = "SELECT COUNT(*) AS conteggio_download FROM utenti INNER JOIN download ON utenti.id = download.utente_id WHERE utenti.username = ?;";
+		PreparedStatement statement;
+		statement = connetti.prepareStatement(join);
+		statement.setString(1, username);
+		ResultSet rs = statement.executeQuery();
+		rs.next();
+		conteggio_download = rs.getInt("conteggio_download");
+		Sessione.setDownload_effettuati(conteggio_download);
+		return conteggio_download;
+	}
+	
 	@Override
 	public List<Utente> getAll() {
 		return null;
@@ -72,8 +87,15 @@ public class UtenteDao implements Dao<Utente> {
 	}
 
 	@Override
-	public void update(Utente t, String[] params) {
-
+	public void update(Utente t, String[] params) throws SQLException {
+		
+		String update = "UPDATE `web_crawler`.`utenti` SET `ultimo_accesso` = ? WHERE id = ?";
+		PreparedStatement statement;
+		statement = connetti.prepareStatement(update);
+		statement.setString(1, params[0]);
+		statement.setInt(2, t.getId());
+		statement.executeUpdate();
+		
 	}
 
 	@Override

@@ -15,7 +15,7 @@ public class ScaricaImmagine {
 		String pathDownload = pathFinale + System.getProperty("file.separator") + nomeImmagine;
 		try (BufferedInputStream in = new BufferedInputStream(new URL(src).openStream());
 				FileOutputStream fileOutputStream = new FileOutputStream(pathDownload);
-				BufferedOutputStream bout = new BufferedOutputStream(fileOutputStream);) {
+				BufferedOutputStream bout = new BufferedOutputStream(fileOutputStream);) {	// Try with resources: una volta finito il try, chiude le connessioni aperte delle risorse definite tra le parentesi
 			System.out.println(pathDownload);
 			byte dataBuffer[] = new byte[1024];
 			int bytesRead;

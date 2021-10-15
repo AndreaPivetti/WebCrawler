@@ -46,9 +46,9 @@ public class MainClass {
 		
 		Controlli controllo = new Controlli();
 
-		System.out.println("Cosa vuoi fare? \n" + "1. Accedi; \n" + "2. Registrati; \n" + "3. Esci; ");
+		System.out.println("Cosa vuoi fare? \n" + "1. Accedi; \n" + "2. Registrati; \n" + "3. Admin panel \n" + "4. Esci; ");
 
-		for (int i = 0; i < 3 && !sceltaGiusta; i++) {	// !sceltaGiusta corrisponde a sceltaGiusta == false
+		for (int i = 0; i < 4 && !sceltaGiusta; i++) {	// !sceltaGiusta corrisponde a sceltaGiusta == false
 			try {
 				scelta = Integer.valueOf(reader.readLine());
 
@@ -69,6 +69,13 @@ public class MainClass {
 					sceltaGiusta = true;
 					break;
 				case 3:
+					String adminPass;
+					adminPass = reader.readLine();
+					if(adminPass.equals(System.getenv("ADMIN_CRAWLER_KEY"))) {
+						
+					}
+					break;
+				case 4:
 					System.out.println("Arrivederci!");
 					sceltaGiusta = true;
 					break;

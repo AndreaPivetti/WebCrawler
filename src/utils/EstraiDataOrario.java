@@ -14,7 +14,7 @@ public class EstraiDataOrario {
 		String minuti = String.valueOf(now.getMinute());
 		String secondi = String.valueOf(now.getSecond());
 		String millisecondi = String.valueOf(now.get(ChronoField.MILLI_OF_SECOND));
-		String data = giorno + "-" + mese + "-" + anno + "_" + ore + "h_" + minuti + "m_" + secondi + "s_" + millisecondi + "ms";
+		String data = giorno + "-" + mese + "-" + anno + "_" + ore + "h" + minuti + "m" + secondi + "s" + millisecondi + "ms";
 		return data;
 	}
 	

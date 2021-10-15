@@ -1,15 +1,14 @@
 package models;
 
-import java.sql.Date;
-
 public class Utente {
 
 	int id;
 	String username;
 	String password;
-	Date ultimo_accesso;
+	String ultimo_accesso;
 	boolean utente_attivo;
-	
+	int max_downloads;
+
 	public int getId() {
 		return id;
 	}
@@ -34,11 +33,11 @@ public class Utente {
 		return this.password;
 	}
 	
-	public void setUltimo_accesso(Date data) {
+	public void setUltimo_accesso(String data) {
 		this.ultimo_accesso = data;
 	}
 	
-	public Date getUltimo_accesso() {
+	public String getUltimo_accesso() {
 		return this.ultimo_accesso;
 	}
 	
@@ -48,6 +47,14 @@ public class Utente {
 	
 	public boolean getUtente_attivo() {
 		return this.utente_attivo;
+	}
+	
+	public int getMax_downloads() {
+		return max_downloads;
+	}
+
+	public void setMax_downloads(int max_downloads) {
+		this.max_downloads = max_downloads;
 	}
 	
 }
