@@ -25,11 +25,10 @@ public class AccediDB implements Accedi {
 			username = richiedi.richiestaUsername();
 			login();
 			if(Sessione.getDownload_effettuati() >= this.limite_download) {
-				this.puoi_scaricare = false;
+				setPuoi_scaricare(false);
 			} else {
-				this.puoi_scaricare = true;
+				setPuoi_scaricare(true);
 			}
-			System.out.println(this.puoi_scaricare);
 		} catch (Exception exc) {
 			System.out.println("Si è verificato un errore \n");
 			exc.printStackTrace();
@@ -56,7 +55,7 @@ public class AccediDB implements Accedi {
 				}
 				System.out.println("Accesso effettuato ");
 				Sessione.setUtente_id(dbUser.getId());
-				System.out.println("Bentornato " + username);
+				System.out.println("Bentornato/a " + username);
 				String ultimoAccesso = dbUser.getUltimo_accesso();
 				if (ultimoAccesso == null) {
 					ultimoAccesso = "Mai";
@@ -106,4 +105,12 @@ public class AccediDB implements Accedi {
 
 	}
 
+	public boolean getPuoi_scaricare() {
+		return puoi_scaricare;
+	}
+
+	public void setPuoi_scaricare(boolean puoi_scaricare) {
+		this.puoi_scaricare = puoi_scaricare;
+	}
+	
 }

@@ -68,6 +68,17 @@ public class UtenteDao implements Dao<Utente> {
 		Sessione.setDownload_effettuati(conteggio_download);
 	}
 	
+	public void updateLimite(Utente t, int limite) throws SQLException {
+		
+		String update = "UPDATE `web_crawler`.`utenti` SET `max_downloads` = ? WHERE id = ?";
+		PreparedStatement statement;
+		statement = connetti.prepareStatement(update);
+		statement.setInt(1, limite);
+		statement.setInt(2, t.getId());
+		statement.executeUpdate();
+		
+	}
+	
 	@Override
 	public List<Utente> getAll() {
 		return null;

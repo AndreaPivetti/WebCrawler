@@ -1,8 +1,6 @@
 
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -10,7 +8,7 @@ import config.DatabaseConnector;
 import crawler.*;
 import dao.*;
 import login.*;
-import models.Downloads;
+import models.*;
 import utils.*;
 
 public class MainClass {
@@ -20,6 +18,7 @@ public class MainClass {
 		int scelta = 0;
 		boolean sceltaGiusta = false;
 		String contatta;
+		EstraiDataOrario data = new EstraiDataOrario();
 		
 		String tipoAccesso = " ";
 		try {
@@ -58,9 +57,7 @@ public class MainClass {
 					sceltaGiusta = true;
 					
 					accessoUtente.verificaPassword();
-					AccediDB acc_db = new AccediDB();
-					System.out.println(acc_db.puoi_scaricare);
-					if(acc_db.puoi_scaricare == true) {	
+					if(accessoUtente.getPuoi_scaricare() == true) {	
 						LoginUtils richiedi = new LoginUtils();
 						String url = richiedi.richiestaURL();
 						WebCrawler crawler = new WebCrawler();
@@ -68,7 +65,36 @@ public class MainClass {
 					} else {
 						System.out.println("Hai esaurito il numero massimo di download! \n" + "Vuoi contattare l'amministratore? (si/no)");
 						contatta = reader.readLine().toLowerCase();
+						if (contatta.equals("si")) {
+							Connection con = null;
+							NotificheAdminDao notificheAdminDao = null;
+							NotificheAdmin notificheAdmin = new NotificheAdmin();
+							try { 
+								DatabaseConnector dn = new DatabaseConnector();
+								con = dn.connessione();
+								notificheAdminDao = new NotificheAdminDao(con);
+								boolean controlla = notificheAdminDao.controllaNotifica(Sessione.getUtente_id());
+								if(!controlla) {	// !controlla corrisponde a controlla == false
+									System.out.println("Hai già una richiesta in attesa ");									
+								} else if(controlla) {	// controlla corrisponde a controlla == true
+									notificheAdmin.setUtente_id(Sessione.getUtente_id());
+									notificheAdmin.setData(data.estraiData());
+									notificheAdmin.setMostra(true);
+									notificheAdminDao.save(notificheAdmin);
+									System.out.println("L'admin è stato contattato ");
+								}								
+							} catch (Exception e) {
+								e.printStackTrace();
+							} finally {
+								con.close();
+							}
+						} else if (contatta.equals("no")) {
+							System.out.println("L'admin non sarà contattato ");
+						} else {
+							System.out.println("Scelta non valida! ");
+						}
 					}
+					
 					break;
 				case 2:
 					accessoUtente.registraNuovoUtente();
@@ -76,10 +102,84 @@ public class MainClass {
 					break;
 				case 3:
 					String adminPass;
+					System.out.println("Inserisci la password: ");
 					adminPass = reader.readLine();
-					if(adminPass.equals(System.getenv("ADMIN_CRAWLER_KEY"))) {
-						
+					if(adminPass.equals(System.getenv("ADMIN_CRAWLER_KEY"))) {	// la password dell'admin è una variabile d'ambiente perciò per controllarla si usa: System.getenv("nome_variabile_d'ambiente")
+						System.out.println("Cosa vuoi fare? \n" + "1. Mostra richieste; \n" + "2. Modifica limite di download; \n" + "3. Chiudi richiesta; ");
+						scelta = Integer.valueOf(reader.readLine());
+						switch (scelta) {
+						case 1:
+							Connection con = null;
+							NotificheAdminDao notificheAdminDao = null;
+							try { 
+								DatabaseConnector dn = new DatabaseConnector();
+								con = dn.connessione();
+								notificheAdminDao = new NotificheAdminDao(con);
+								notificheAdminDao.mostraNotifiche();
+							} catch (Exception e) {
+								e.printStackTrace();
+							} finally {
+								con.close();
+							}
+							break;
+						case 2:
+							int id = 0, nuovo_limite;
+													
+							con = null;
+							UtenteDao utDao = null;
+							Utente utente = null;
+							try { 
+								System.out.println("Inserisci l'id dell'utente a cui vuoi modificare il limite di download: ");
+								id = Integer.valueOf(reader.readLine());
+								DatabaseConnector dn = new DatabaseConnector();
+								con = dn.connessione();
+								utDao = new UtenteDao(con);
+								utente = utDao.get(id);
+								System.out.println("L'attuale limite dell'utente con id = " + id + " è: " + utente.getMax_downloads());
+								System.out.println("Inserisci il nuovo limite: ");
+								nuovo_limite = Integer.valueOf(reader.readLine());
+								utDao.updateLimite(utente, nuovo_limite);
+							} catch (Exception e) {
+								e.printStackTrace();
+							} finally {
+								con.close();
+							}
+							
+							notificheAdminDao = null;
+							try { 
+								DatabaseConnector dn = new DatabaseConnector();
+								con = dn.connessione();
+								notificheAdminDao = new NotificheAdminDao(con);
+								notificheAdminDao.updateMostra(id, false);
+							} catch (Exception e) {
+								e.printStackTrace();
+							} finally {
+								con.close();
+							}
+							
+							break;
+						case 3:
+							con = null;
+							notificheAdminDao = null;
+							System.out.println("Inserisci l'id dell'utente di cui vuoi chiudere la richiesta: ");
+							id = Integer.valueOf(reader.readLine());
+							try { 
+								DatabaseConnector dn = new DatabaseConnector();
+								con = dn.connessione();
+								notificheAdminDao = new NotificheAdminDao(con);
+								notificheAdminDao.updateMostra(id, false);
+							} catch (Exception e) {
+								e.printStackTrace();
+							} finally {
+								con.close();
+							}
+							break;
+						default:
+							System.out.println("Scelta non valida! ");
+							break;
+						}
 					}
+					sceltaGiusta = true;
 					break;
 				case 4:
 					System.out.println("Arrivederci!");

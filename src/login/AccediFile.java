@@ -61,4 +61,15 @@ public class AccediFile implements Accedi{
 		}
 	}
 
+	@Override
+	public boolean getPuoi_scaricare() {
+		
+		return false;
+	}
+
+	@Override
+	public void setPuoi_scaricare(boolean puoi_scaricare) {
+				
+	}
+
 }

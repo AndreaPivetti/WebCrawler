@@ -12,4 +12,8 @@ public interface Accedi {
 	
 	public void registraNuovoUtente() throws NoSuchAlgorithmException, SQLException;
 	
+	public boolean getPuoi_scaricare();
+	
+	public void setPuoi_scaricare(boolean puoi_scaricare);
+	
 }
