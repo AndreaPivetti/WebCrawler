@@ -87,7 +87,7 @@ public class UtenteDao implements Dao<Utente> {
 	@Override
 	public void save(Utente t) throws SQLException {
 
-		String insert = "INSERT INTO `web_crawler`.`utenti` (`username`, `password`, `ultimo_accesso`, `utente_attivo`) VALUES (?, ?, NULL, NULL)";
+		String insert = "INSERT INTO `web_crawler`.`utenti` (`username`, `password`, `ultimo_accesso`) VALUES (?, ?, NULL)";
 		PreparedStatement statement;
 		statement = connetti.prepareStatement(insert);
 		statement.setString(1, t.getUsername());

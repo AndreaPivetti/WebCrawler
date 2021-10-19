@@ -1,5 +1,3 @@
-
-
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -34,7 +32,9 @@ public class MainClass {
 		if(scelta == 1) {
 			tipoAccesso = "DB";
 		} else if(scelta == 2) {
-			tipoAccesso = "File";
+			//tipoAccesso = "File";
+			System.out.println("questa funzionalità non è più disponibile! \n" + "Di conseguenza verrà utilizzato il DataBase");
+			tipoAccesso = "DB";
 		} else {
 			System.out.println("Scelta non valida! ");
 		}

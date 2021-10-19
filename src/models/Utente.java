@@ -6,7 +6,6 @@ public class Utente {
 	String username;
 	String password;
 	String ultimo_accesso;
-	boolean utente_attivo;
 	int max_downloads;
 
 	public int getId() {
@@ -39,14 +38,6 @@ public class Utente {
 	
 	public String getUltimo_accesso() {
 		return this.ultimo_accesso;
-	}
-	
-	public void setUtente_attivo(boolean attivo) {
-		this.utente_attivo = attivo;
-	}
-	
-	public boolean getUtente_attivo() {
-		return this.utente_attivo;
 	}
 	
 	public int getMax_downloads() {
